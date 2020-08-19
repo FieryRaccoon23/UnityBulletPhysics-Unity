@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletObjectShape : MonoBehaviour
+public abstract class BulletObjectShape : MonoBehaviour
 {
     protected IntPtr m_ObjectShapeIntPtr = IntPtr.Zero;
 
