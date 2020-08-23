@@ -5,18 +5,13 @@ using UnityEngine;
 
 public class BulletVisualDebugger : MonoBehaviour
 {
-    enum VisualDebugState
-    {
-        Ready = 0,
-        DataPresent
-    };
-
+    
     private float[] m_CameraParametersCache = new float[MemoryMapping.Camera_Parameters];
     private float[] m_CameraParametersCurrent = new float[MemoryMapping.Camera_Parameters];
 
     private void Start()
     {
-        if(!MemoryMapping.MemOpen())
+        if(!MemoryMapping.CreateMemoryMappedFIle())
         {
             Debug.LogWarning("Could not open Memory File.");
         }
@@ -72,11 +67,8 @@ public class BulletVisualDebugger : MonoBehaviour
         {
             Buffer.BlockCopy(m_CameraParametersCurrent, 0, m_CameraParametersCache, 0, m_CameraParametersCurrent.Length * sizeof(float));
 
-            byte[] data = new byte[(floatArray.Length * sizeof(float)) + sizeof(int)];
-            Buffer.BlockCopy(floatArray, 0, data, sizeof(int), data.Length - sizeof(int));
-
-            byte[] dataTypeBytes = BitConverter.GetBytes((int)VisualDebugState.DataPresent);
-            Buffer.BlockCopy(dataTypeBytes, 0, data, 0, sizeof(int));
+            byte[] data;
+            MemoryMapping.PrepareDataToSend(floatArray, out data);
 
             MemoryMapping.WriteToMem(data);
         }
@@ -84,6 +76,6 @@ public class BulletVisualDebugger : MonoBehaviour
 
     void OnApplicationQuit()
     {
-        MemoryMapping.MemClose();
+        MemoryMapping.CloseMemoryMappedFIle();
     }
 }
