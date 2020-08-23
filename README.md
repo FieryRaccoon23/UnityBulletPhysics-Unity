@@ -11,3 +11,6 @@ Add BulletShapes to objects that are supposed to simulate physic using Bullet Ph
 
 NOTE: Make sure that BulletPhysicsManager.cs runs before any other bullet physic code. To do that, in Unity, go to Edit -> Project Settings -> Script Execution Order. 
 Under there, add BulletPhysicsManager first and then BulletPhysicsRigidBody.
+
+# Visual Debugger
+Visual debugger setup can be found here: https://github.com/FieryRaccoon23/UnityBulletPhysics-Engine
